@@ -2010,11 +2010,16 @@
 
                 for (var i = 0; i < fLen; i++) {
                     utflutningur = dsutflutningur.Data({ "year": dsutflutningur.Dimension("year").id[i] }, false);
-                    utflutningurdata.push([year[i], utflutningur]);
+
+
+					if(utflutningur != null){
+						utflutningurdata.push([year[i], utflutningur]);
+					} 
+
+                    
 
                 }
 
-                    console.log(utflutningurdata)
 
 
                 //Build Series
@@ -2099,6 +2104,8 @@
                                 fontSize: "11px"
                             }
                         },
+                        min: null,
+                        max:null,                        
 
                     },
                     yAxis: {
@@ -2124,17 +2131,6 @@
                     },
                     tooltip: {
                         enabled: false
-                    },
-                    plotOptions: {
-                        series: {
-                            stacking: "normal",
-                            showInNavigator: true,
-                            dataGrouping:{
-                                enabled: true,
-                                approximation: "sum",
-                                units:[ ["year", null]]
-                            }
-                        },
 
                         
 
@@ -3408,7 +3404,7 @@
 
 
 
-<!--        <section data-background="assets/innutflutningur.jpg" data-autoslide="4000">
+      <section data-background="assets/innutflutningur.jpg" data-autoslide="4000">
             <h1><img src="assets/logo.png" alt="Hagstova Føroya" class="logo" />Næmingar</h1>
         </section>
         <section data-state="innutflutningur" data-background="assets/innutflutningur.jpg">
@@ -3422,7 +3418,7 @@
             </div>
         </section>
 
-
+<!--  
 
         <section data-background="assets/fiskavoruutflutningur.jpg" data-autoslide="4000">
             <h1><img src="assets/hagstova_logo_white.svg" alt="Hagstova Føroya" class="logo" />Fiskavørur</h1>
