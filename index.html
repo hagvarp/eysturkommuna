@@ -124,7 +124,9 @@
                 var jsonStatData = chart1Data;
                 //Extrat Data From JSON Stat
                 ds = JSONstat(jsonStatData).Dataset(0);
-
+                t = ds.Dimension("year").length - 1;
+                year = ds.Dimension("year").id;
+               
                 var fLen = year.length;
                 m = ds.Dimension("month").id;
 
