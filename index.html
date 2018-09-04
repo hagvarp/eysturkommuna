@@ -145,13 +145,6 @@
                     }
                 }
 
-                var d = new Date(nextMonth);
-                d.setMonth(d.getMonth() + 1);
-
-                ultimo = ds.Data({ "changes": "ULTIMO", "village/city": "4205", "year": ds.Dimension("year").id[fLen - 1] }, false).filter(function(n) { return n; });
-                ultimo = ultimo[ultimo.length - 1];
-
-                folkataldata.push([Date.parse(d), ultimo]);
 
                 chart1_last_month = folkataldata[folkataldata.length - 1];
                 chart1_last_month = chart1_last_month[0];
@@ -318,7 +311,7 @@
                         {
                             "code": "village/city",
 						      "selection": {
-						        "filter": "agg:Kommunur 1. jan. 2017.agg",
+						        "filter": "agg:municipality-fo-2017.agg",
 						        "values": [
 						          "4205"
 						        ]
@@ -606,7 +599,7 @@
                         {
                             "code": "village/city",
 						      "selection": {
-						        "filter": "agg:Kommunur 1. jan. 2017.agg",
+						        "filter": "agg:municipality-fo-2017.agg",
 						        "values": [
 						          "4205"
 						        ]
@@ -891,7 +884,7 @@
                         {
                             "code": "village/city",
 						      "selection": {
-						        "filter": "agg:Kommunur 1. jan. 2017.agg",
+						        "filter": "agg:municipality-fo-2017.agg",
 						        "values": [
 						          "4205"
 						        ]
