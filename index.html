@@ -121,44 +121,40 @@
 
             //Chart 1 specific functions
             function drawChart1() {
-                var jsonStatData = chart1Data;
-                //Extrat Data From JSON Stat
-                ds = JSONstat(jsonStatData).Dataset(0);
-                t = ds.Dimension("year").length - 1;
-                year = ds.Dimension("year").id;
-               
-                var fLen = year.length;
-                m = ds.Dimension("month").id;
+    var jsonStatData = chart1Data;
 
-                //Format Data
+    // Extract Data From JSON Stat
+    var ds = JSONstat(jsonStatData).Dataset(0);
 
-                var folkataldata = [];
+    var months = ds.Dimension("month").id;
 
-                for (var i = 0; i < fLen; i++) {
-                    folkatal = ds.Data({ "changes": "Popu_primo", "village/city": "100700", "year": ds.Dimension("year").id[i] }, false).filter(function(n) { return n; });
+    var folkatal = ds.Data({
+        "changes": "Popu_primo",
+        "village/city": "4245"
+    }, false);
 
-                    for (var j = 0; j < folkatal.length; j++) {
-                        mon = m[j].replace("M", "-");
-                        folkataldata.push([Date.parse(year[i] + mon), folkatal[j]]);
-                        nextMonth = year[i] + mon
+    var folkataldata = [];
 
-                    }
-                }
+    for (var i = 0; i < months.length; i++) {
+        var month = months[i].replace("M", "-") + "-01";
 
+        folkataldata.push([
+            Date.parse(month),
+            folkatal[i]
+        ]);
+    }
 
-                chart1_last_month = folkataldata[folkataldata.length - 1];
-                chart1_last_month = chart1_last_month[0];
+    chart1_last_month =
+        folkataldata[folkataldata.length - 1][0];
 
+    var len = folkataldata.length;
 
-                // set up the updating of the chart each second
-                len = folkataldata.length;
+    folkataldata[len - 1].push({
+        marker: {
+            enabled: true
+        }
+    });
 
-                //set marker on last point
-                folkataldata[len - 1].push({
-                    marker: {
-                        enabled: true
-                    }
-                });
 
 
                 //Build Series
@@ -306,14 +302,14 @@
             }
 
             var loadDataAndBuildChart1 = function() {
-                POST("https://statbank.hagstova.fo/api/v1/fo/H2/IB/IB01/fo_vital_md.px", {
+                POST("https://statbank.hagstova.fo/api/v1/fo/H2/IB/IB01/fo_vit_md_t.px", {
                   "query": [
                     {
                       "code": "village/city",
                       "selection": {
                         "filter": "agg:sdwh-municipality-fo-2017.agg",
                         "values": [
-                          "100700"
+                          "4245"
                         ]
                       }
                     },
@@ -424,12 +420,12 @@
 
                 for (var i = 0; i < fLen; i++) {
 
-                    tilflyting = ds.Data({ "changes": "Immigr_int", "village/city": "100700", "month": ds.Dimension("month").id[i] }, false);
+                    tilflyting = ds.Data({ "changes": "Immigr_int", "village/city": "4245", "month": ds.Dimension("month").id[i] }, false);
 
-                    imidom = ds.Data({ "changes": "Immigr_dom", "village/city": "100700", "month": ds.Dimension("month").id[i] }, false);
+                    imidom = ds.Data({ "changes": "Immigr_dom", "village/city": "4245", "month": ds.Dimension("month").id[i] }, false);
 
-					emidom = ds.Data({ "changes": "Emmigr_dom", "village/city": "100700", "month": ds.Dimension("month").id[i] }, false);
-                    fraflyting = ds.Data({ "changes": "Emmigr_int", "village/city": "100700", "month": ds.Dimension("month").id[i] }, false);
+					emidom = ds.Data({ "changes": "Emmigr_dom", "village/city": "4245", "month": ds.Dimension("month").id[i] }, false);
+                    fraflyting = ds.Data({ "changes": "Emmigr_int", "village/city": "4245", "month": ds.Dimension("month").id[i] }, false);
 
 
                         mon = m[i].replace("M", "-");
@@ -601,7 +597,7 @@
 						      "selection": {
 						        "filter": "agg:sdwh-municipality-fo-2017.agg",
 						        "values": [
-						          "100700"
+						          "4245"
 						        ]
 						      }
                         },
@@ -709,11 +705,11 @@
 
                 for (var i = 0; i < fLen; i++) {
 
-                    tilflyting = ds.Data({ "changes": "Birth", "village/city": "100700", "month": ds.Dimension("month").id[i] }, false);
+                    tilflyting = ds.Data({ "changes": "Birth", "village/city": "4245", "month": ds.Dimension("month").id[i] }, false);
 
 
 
-                    fraflyting = ds.Data({ "changes": "Death", "village/city": "100700", "month": ds.Dimension("month").id[i] }, false);
+                    fraflyting = ds.Data({ "changes": "Death", "village/city": "4245", "month": ds.Dimension("month").id[i] }, false);
 
                     
                         mon = m[i].replace("M", "-");
@@ -884,7 +880,7 @@
 						      "selection": {
 						        "filter": "agg:sdwh-municipality-fo-2017.agg",
 						        "values": [
-						          "100700"
+						          "4245"
 						        ]
 						      }
                         },
@@ -935,30 +931,29 @@ var chart4;
 
             //Chart 4 specific functions
             function drawChart4() {
-                var jsonStatData = chart4Data;
+    var jsonStatData = chart4Data;
 
-                //Extrat Data From JSON Stat
-                ds = JSONstat(jsonStatData).Dataset(0);
-                t = ds.Dimension("year").length - 1;
-                year = ds.Dimension("year").id;
+    // Extract Data From JSON Stat
+    var ds = JSONstat(jsonStatData).Dataset(0);
 
-                var fLen = year.length;
-                m = ds.Dimension("month").id;
+    var months = ds.Dimension("month").id;
 
-                //Format Data
-                var unemploymentdata = [];
+    var unemployment = ds.Data({}, false);
 
-                for (var i = 0; i < fLen; i++) {
-                    var unemployment = ds.Data({ "year": ds.Dimension("year").id[i] }, false).filter(function(n) { return n; });
+    var unemploymentdata = [];
 
-                    for (var j = 0; j < unemployment.length; j++) {
-                        var month = m[j].substring(1);
-                        unemploymentdata.push([Date.parse(year[i] + "-" + month), unemployment[j]]);
-                    }
-                }
+    for (var i = 0; i < months.length; i++) {
 
-                var chart4_last_month = unemploymentdata[unemploymentdata.length - 1];
-                chart4_last_month = chart4_last_month[0];
+        var month = months[i].replace("M", "-") + "-01";
+
+        unemploymentdata.push([
+            Date.parse(month),
+            unemployment[i]
+        ]);
+    }
+
+    var chart4_last_month =
+        unemploymentdata[unemploymentdata.length - 1][0];
 
                 //Build Series
                 var createdSeries = [{
@@ -1100,7 +1095,7 @@ var chart4;
             }
 
             function loadDataAndBuildChart4() {
-                POST("https://statbank.hagstova.fo/api/v1/fo/H2/AM/AMS/ARL/arl_aldkysy.px", {
+                POST("https://statbank.hagstova.fo/api/v1/fo/H2/AM/AMS/ARL/arl_aldkysy_t.px", {
                     "query": [
                         {
                             "code": "measure",
@@ -1120,26 +1115,6 @@ var chart4;
                             ]
                         }
                         },                        
-                        {
-                            "code": "month",
-                            "selection": {
-                                "filter": "item",
-                                "values": [
-                                    "M01",
-                                    "M02",
-                                    "M03",
-                                    "M04",
-                                    "M05",
-                                    "M06",
-                                    "M07",
-                                    "M08",
-                                    "M09",
-                                    "M10",
-                                    "M11",
-                                    "M12"
-                                ]
-                            }
-                        }
                     ],
                     "response": {
                         "format": "json-stat"
@@ -1513,7 +1488,7 @@ var chart4;
                           "selection": {
                             "filter": "item",
                             "values": [
-                              "100700"
+                              "4245"
                             ]
                           }
                         }
@@ -1752,7 +1727,7 @@ var chart4;
                       "selection": {
                         "filter": "item",
                         "values": [
-                          "100700"
+                          "4245"
                         ]
                       }
                     }
